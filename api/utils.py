@@ -15,7 +15,12 @@ spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
 
 def get_track_features(song_id):
-    track_features = spotify.audio_features(tracks=[song_id])[0]
+    track_features = spotify.audio_features(tracks=[song_id]);
+
+    if track_features is None:
+        raise Exception("No track features")
+
+    track_features = track_features[0]
 
     features = [
         "danceability",
@@ -36,16 +41,18 @@ def get_track_features(song_id):
     features_value_list = []
 
     if track_features is None:
-        return None
+        raise Exception("No track features")
 
     for feature in features:
         features_value_list.append(track_features[feature])
 
     return features_value_list
 
-
-def get_required_track_analysis(song_id):
+def get_track_analysis(song_id):
     track_analysis = spotify.audio_analysis(song_id)
+
+    if track_analysis is None:
+        raise Exception("No track analysis")
 
     sections = track_analysis["sections"]
     chorus_hit = sections[2]["start"]
@@ -55,10 +62,15 @@ def get_required_track_analysis(song_id):
 
 def get_track_info(song_id):
     track = spotify.track(song_id)
+
+    if track is None:
+        raise Exception("No track info")
+
     image_url = track["album"]["images"][0]["url"]
     album_name = track["album"]["name"]
     release_type = track["album"]["album_type"]
     track_name = track["name"]
     song_url = track["external_urls"]["spotify"]
-    # return track['artists'][0]['name'], track_name, album_name, image_url, release_type
     return track["artists"], track_name, album_name, image_url, release_type, song_url
+
+
