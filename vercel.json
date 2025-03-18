@@ -1,7 +1,11 @@
 {
   "version": 2,
   "functions": {
-    "api/app.py": {
+    "api/test.py": {
+      "memory": 1024,
+      "maxDuration": 10
+    },
+    "api/predict.py": {
       "memory": 1024,
       "maxDuration": 10
     }
@@ -9,8 +13,11 @@
   "routes": [
     {
       "src": "/api/predict/(?<song_id>[^/]+)",
-      "dest": "/api/app.py",
-      "methods": ["GET", "OPTIONS"]
+      "dest": "/api/predict.py?song_id=$song_id"
+    },
+    {
+      "src": "/test/(?<param>[^/]+)",
+      "dest": "/api/index.py?param=$param"
     }
   ]
 }

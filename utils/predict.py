@@ -1,17 +1,13 @@
-import pickle
 import pandas as pd
 import numpy as np
-from flask import Flask, jsonify
-from flask_cors import CORS
+import pickle
 
-from ..utils import get_track_features, get_track_analysis, get_track_info
-from ..model import Result
+from utils.model import Result
+from utils.spotify import get_track_analysis, get_track_features, get_track_info
 
-app = Flask(__name__)
-model = pickle.load(open('model.pkl', 'rb'))
+def predict(song_id):
+    model = pickle.load(open("model.pkl", "rb"))
 
-@app.route("/api/predict/<song_id>", methods=['GET'])
-def songsavvy(song_id):
     features = [
         "artist",
         "danceability",
@@ -61,9 +57,5 @@ def songsavvy(song_id):
         result=pred
     )
 
-    return jsonify({ result: result.to_json() }), 200
-
-
-if __name__ == "__main__":
-    app.run(debug=true)
+    return result.to_json()
 

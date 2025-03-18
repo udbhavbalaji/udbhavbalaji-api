@@ -1,5 +1,3 @@
-
-
 class Result:
     def __init__(self, song_id: str, track_name: str, album_name: str, artist: str, image_url: str, song_url: str, result: int) -> None:
         self.song_id = song_id
@@ -20,5 +18,3 @@ class Result:
             "song_url": self.song_url,
             "result": self.result,
         }
-
-
