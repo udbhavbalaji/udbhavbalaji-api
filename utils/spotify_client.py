@@ -52,6 +52,7 @@ class SpotifyClient:
         token = self.token_object
         if token: 
             formatted_time_accessed = token['time_accessed']
+            # note: since redis has an option to auto-delete token after sometime, I don't need to worry too much about this... but still need to fix this shit
             time_since_last_auth = datetime.now(tz=timezone.utc) - formatted_time_accessed
 
             if time_since_last_auth.seconds < 3600:
