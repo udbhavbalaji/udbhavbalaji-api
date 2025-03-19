@@ -4,6 +4,9 @@ import pickle
 
 from utils.model import Result
 from utils.spotify import get_track_analysis, get_track_features, get_track_info
+# from utils.spotify_client import SpotifyClient
+
+# spotify = SpotifyClient()
 
 def predict(song_id):
     model = pickle.load(open("model.pkl", "rb"))

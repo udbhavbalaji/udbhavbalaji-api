@@ -3,19 +3,24 @@ import os
 from dotenv import load_dotenv
 from spotipy.oauth2 import SpotifyClientCredentials
 
-load_dotenv()
+from utils.spotify_client import SpotifyClient
 
-CLIENT_ID = os.getenv("CLIENT_ID")
-CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+# load_dotenv()
+#
+# CLIENT_ID = os.getenv("CLIENT_ID")
+# CLIENT_SECRET = os.getenv("CLIENT_SECRET")
+#
+# client_credentials_manager = SpotifyClientCredentials(
+#     client_id=CLIENT_ID, client_secret=CLIENT_SECRET
+# )
+# spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
 
-client_credentials_manager = SpotifyClientCredentials(
-    client_id=CLIENT_ID, client_secret=CLIENT_SECRET
-)
-spotify = spotipy.Spotify(client_credentials_manager=client_credentials_manager)
+
+spotify = SpotifyClient()
 
 
 def get_track_features(song_id):
-    track_features = spotify.audio_features(tracks=[song_id]);
+    track_features = spotify.get_track_features(song_id);
 
     if track_features is None:
         raise Exception("No track features")
@@ -49,7 +54,7 @@ def get_track_features(song_id):
     return features_value_list
 
 def get_track_analysis(song_id):
-    track_analysis = spotify.audio_analysis(song_id)
+    track_analysis = spotify.get_track_analysis(song_id)
 
     if track_analysis is None:
         raise Exception("No track analysis")
@@ -61,7 +66,7 @@ def get_track_analysis(song_id):
 
 
 def get_track_info(song_id):
-    track = spotify.track(song_id)
+    track = spotify.get_track(song_id)
 
     if track is None:
         raise Exception("No track info")
